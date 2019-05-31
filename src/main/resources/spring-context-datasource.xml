@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    <description>spring容器与mybatis整合的配置文件</description>
+    <!--
+        1、加载数据库属性文件
+    -->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!--
+        1、配置数据源使用druid数据库连接池
+        2、必须依赖mysql-connector-java
+        3、与spring整合时，还需要spring-jdbc包
+    -->
+    <bean id="datasource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--
+        1、mybatis与spring的整合配置
+        2、主要是把sqlSessionFactory对象交给spring容器管理
+        3、org.mybatis.spring.SqlSessionFactoryBean类在mybatis-spring包中
+    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--
+            1、configLocation：mybatis的全局配置文件位置
+            2、mapperLocations：mybatis的接口映射文件位置
+        -->
+        <property name="dataSource" ref="datasource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:mappers/**/*.xml"/>
+        <property name="typeAliasesPackage" value="com.loong.modules"/>
+    </bean>
+
+    <!--
+        1、mybatis的接口扫描配置类
+        2、在这里将@MybatisDao接口注入后，就能dao层交给spring容器管理
+    -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--
+            1、注意这里是sqlSessionFactoryBeanName
+        -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.loong.modules"/>
+        <property name="annotationClass" value="com.loong.modules.commons.mybatis.annotation.MybatisDao"/>
+    </bean>
+</beans>

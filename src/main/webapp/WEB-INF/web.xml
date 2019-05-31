@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+           version="3.0">
+    <!--############################1、spring容器加载###############################-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <!--
+            1、classpath和classpath*的区别
+            2、该处加载的配置文件包含spring容器的配置文件
+            3、并且与spring容器整合的mybatis、shiro等框架的配置文件也需要在这里加载
+            4、建议随spring容器一起加载的配置文件名称都为：spring-context*.xml格式
+        -->
+        <param-value>classpath:spring-context*.xml</param-value>
+    </context-param>
+    <!--############################2、springMvc前端映射器加载######################-->
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <!--
+                1、这里需要加载的是springMvc容器的配置文件，以及随springMvc容器一起初始化的配置文件。
+                2、如果需要和spring容器一起加载的配置文件在此加载。会出现依赖错误
+                3、例如：spring-context-datasource.xml就需要与sping容器一起加载。因此不应该放在此处。
+            -->
+            <param-value>classpath:spring-mvc.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <!--
+            1、这里使用/ 还是/* ,使用/*后，静态资源响应后为***/**/*.jsp 此时前端映射器dispatcherServlet
+                还是会把该地址作为一次请求，导致找不到静态资源。所以应该使用/
+        -->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+</web-app>

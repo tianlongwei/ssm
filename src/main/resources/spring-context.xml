@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <description>spring容器的配置文件</description>
+
+    <!--
+        1、扫描dao层和service层，不扫描@controller
+        2、dao层扫描到需要自己写完一个@MybatisDao接口
+        3、sring容器是先于springMvc容器初始化的，并且@Controller扫描的类是在sringMvc容器中管理的
+            因此在controller层中的service依赖和service层中的dao层依赖是需要先初始化的。
+            所以dao层和service层是由先初始化的spring容器管理的
+    -->
+    <context:component-scan base-package="com.loong.modules">
+        <!--
+            1、exclude-filter 配置包扫描的过滤器
+        -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+</beans>
