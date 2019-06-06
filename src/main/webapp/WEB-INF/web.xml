@@ -41,5 +41,24 @@
         -->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
+    <!--############################3、配置shiro过滤器##############################-->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <!--
+                由于Servlet Filter接口中定义的生命周期方法init()\destroy() 等默认情况下不会传递到生成的目标bean。
+                依赖spring容器来管理这些filter bean的生命周期。需要明确的将targetFilterLifecycle作为DelegatingFilterProxy
+                的初始化参数并且值为true。将会通过反射强制调用init()\destroy()方法。使servlet容器来管理生成的目标bena的生命
+                周期。
+            -->
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <!--这里需要使用/* 用户拦截所有请求-->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

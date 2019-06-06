@@ -125,6 +125,13 @@
       <artifactId>shiro-web</artifactId>
       <version>1.4.1</version>
     </dependency>
+    <!--####################9、添加运行编译时所需的javaee包###########################-->
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
 
   </dependencies>
 

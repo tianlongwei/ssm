@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <description>shiro与spring容器整合的配置文件</description>
+
+    <!--1、配置服务端账户信息安全获取realm-->
+    <bean id="myRealm" class="com.loong.modules.commons.shiro.realm.MyRealm"/>
+    <!--2、配置CachingRealm所需的缓存管理器,这里使用的是Ehcache-->
+
+    <!--3、配置SecurityManager-->
+    <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myRealm"/>
+
+        <!--
+            可以自定义的一些属性
+            <property name="rememberMeManager" ref=""/>
+            <property name="sessionManager" ref=""/>
+            <property name="subjectDAO" ref=""/>
+            <property name="subjectFactory" ref=""/>
+        -->
+    </bean>
+</beans>
