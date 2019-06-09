@@ -40,4 +40,7 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+    <mvc:default-servlet-handler/>
+    <mvc:resources mapping="/static/**" location="/static/"/>
 </beans>

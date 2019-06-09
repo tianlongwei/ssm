@@ -48,12 +48,12 @@
     -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="defaultWebSecurityManager"/>
-        <property name="loginUrl" value="/login.jsp"/>
-        <property name="successUrl" value="/list.jsp"/>
-        <property name="unauthorizedUrl" value="unauthorized.jsp"/>
+        <property name="loginUrl" value="/static/login.jsp"/>
+        <property name="successUrl" value="/static/list.jsp"/>
+        <property name="unauthorizedUrl" value="/static/unauthorized.jsp"/>
         <property name="filterChainDefinitions">
             <value>
-                /login.jsp =anon
+                /static/login.jsp =anon
                 /login = anon
                 /logout = logout
                 /** = authc

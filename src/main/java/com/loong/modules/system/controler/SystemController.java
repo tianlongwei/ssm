@@ -27,7 +27,7 @@ public class SystemController {
     @RequestMapping("hello")
     public String hello(Model model){
         model.addAttribute("name","ttl");
-        return "hello";
+        return "/static/hello.jsp";
     }
 
 
@@ -64,7 +64,7 @@ public class SystemController {
         User user = userService.getUserByLoginName(username);
         HttpSession session = request.getSession();
         session.setAttribute("user",user);
-        return "redirect:list.jsp";
+        return "redirect:static/list.jsp";
     }
 
 
@@ -77,6 +77,6 @@ public class SystemController {
         User user= (User) session.getAttribute("user");
         user.setPassword(pass);
         userService.updatePwd(user);
-        return "redirect:list.jsp";
+        return "redirect:static/list.jsp";
     }
 }

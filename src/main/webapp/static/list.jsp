@@ -14,6 +14,6 @@
 <% User user= (User) session.getAttribute("user");%>
 你好<%=user.getUsername()%>
 <a href="/logout">登出</a>
-<a href="/updatePwd.jsp">修改密码</a>
+<a href="/static/updatePwd.jsp">修改密码</a>
 </body>
 </html>
