@@ -15,4 +15,12 @@ public class UserService {
     public List<User> getAll(){
         return userDao.getAll();
     }
+
+    public User getUserByLoginName(String loginName){
+        return userDao.getUserByLoginName(loginName);
+    }
+
+    public void updatePwd(User user){
+        userDao.updatePwd(user);
+    }
 }

@@ -9,14 +9,31 @@
 
     <description>shiro与spring容器整合的配置文件</description>
 
-    <!--1、配置服务端账户信息安全获取realm-->
-    <bean id="myRealm" class="com.loong.modules.commons.shiro.realm.MyRealm"/>
-    <!--2、配置CachingRealm所需的缓存管理器,这里使用的是Ehcache-->
+    <!--
+        1、配置服务端账户信息安全获取realm
+     -->
+    <bean id="myRealm" class="com.loong.modules.commons.shiro.realm.MyRealmDemo">
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+    <!--配置密码匹配器-->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="SHA-1"/>
+        <property name="hashIterations" value="1024"/>
+        <!--<property name="storedCredentialsHexEncoded" value="true"/>-->
+    </bean>
 
-    <!--3、配置SecurityManager-->
+    <!--
+        2、配置CachingRealm所需的缓存管理器,这里使用的是Ehcache
+     -->
+    <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+    <!--
+        3、配置SecurityManager
+    -->
     <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
-
+        <property name="cacheManager" ref="ehCacheManager"/>
         <!--
             可以自定义的一些属性
             <property name="rememberMeManager" ref=""/>
@@ -25,4 +42,23 @@
             <property name="subjectFactory" ref=""/>
         -->
     </bean>
+    <!--
+        4、配置登陆认证的过滤器
+        注意：这里的bean id 必须与web.xml中配置的DelegatingFilterProxy的<filter-name>值一致（特别重要）
+    -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="defaultWebSecurityManager"/>
+        <property name="loginUrl" value="/login.jsp"/>
+        <property name="successUrl" value="/list.jsp"/>
+        <property name="unauthorizedUrl" value="unauthorized.jsp"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /login.jsp =anon
+                /login = anon
+                /logout = logout
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
 </beans>

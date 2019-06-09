@@ -6,4 +6,11 @@
     <select id="getAll" resultType="com.loong.modules.system.entity.User">
         select * from sys_user
     </select>
+
+    <select id="getUserByLoginName" resultType="user">
+        select * from sys_user where username=#{loginName}
+    </select>
+    <update id="updatePwd" parameterType="user">
+        update sys_user set password =#{password} where username=#{username}
+    </update>
 </mapper>

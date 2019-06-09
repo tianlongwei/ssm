@@ -9,4 +9,6 @@ import java.util.List;
 @MybatisDao
 public interface UserDao {
     List<User> getAll();
+    User getUserByLoginName(String loginName);
+    void updatePwd(User user);
 }
