@@ -61,7 +61,7 @@ public class TestShiro {
     public void testShiro(){
         SecureRandomNumberGenerator generator=new SecureRandomNumberGenerator();
         ByteSource byteSource = generator.nextBytes(8);
-        System.out.println(Hex.encodeToString(byteSource.getBytes()));
+        System.out.println(Hex.encodeToString(byteSource.getBytes()));//8ccd6a9afda380a7
         System.out.println(byteSource);
     }
     /**
@@ -187,11 +187,11 @@ public class TestShiro {
         //解密
         ByteSource decrypt = service.decrypt(encrypt.getBytes(), key.getEncoded());
         System.out.println(new String(decrypt.getBytes()));
-    }
+}
 
     /**
      * *****************************使用jdk自带的工具进行非对称加密解密**********************************************************
-    */
+     */
     //https://blog.csdn.net/qy20115549/article/details/83105736
     //RSA 算法 非对称算法
     @Test

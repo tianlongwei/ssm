@@ -1,6 +1,5 @@
 package com.loong.modules.system.controler;
 
-import com.loong.modules.commons.security.Digest;
 import com.loong.modules.system.entity.User;
 import com.loong.modules.system.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -71,11 +70,12 @@ public class SystemController {
     @RequestMapping("/updatePwd")
     public String updatePwd(@RequestParam("pwd") String pwd,
                             HttpServletRequest request){
-        String pass= Digest.generatePwd(pwd);
-        System.out.println("加密后的密码为："+pass);
+        //生成密码
+        String generatePwd = userService.generatePwd(pwd);
+        System.out.println("加密后的密码为："+generatePwd);
         HttpSession session = request.getSession();
         User user= (User) session.getAttribute("user");
-        user.setPassword(pass);
+        user.setPassword(generatePwd);
         userService.updatePwd(user);
         return "redirect:static/list.jsp";
     }
