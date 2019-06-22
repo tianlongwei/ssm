@@ -1,2 +1,2 @@
-# ssm
-mybatis和spring整合01
+# shirodemo
+在ssm框架基础上，增加shiro权限认证功能，以各种加密算法简单demo

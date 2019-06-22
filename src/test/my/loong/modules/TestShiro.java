@@ -29,7 +29,7 @@ import java.security.spec.X509EncodedKeySpec;
 public class TestShiro {
 //https://blog.csdn.net/zt_fucker/article/details/72364959
 //https://blog.csdn.net/u012437781/article/details/78366305
-//https://www.cnblogs.com/maofa/p/6407102.html
+//https://www.cnblogs.com/maofa/p/6407102.html *****
 
     /**
      * *********************************散列算法***********************************************
