@@ -125,13 +125,13 @@ public class SystemController {
                 }
             }
         }*/
-        while (sessionIterator.hasNext()){
+/*        while (sessionIterator.hasNext()){
             Session session = sessionIterator.next();
             System.out.println("id:"+session.getId());
             System.out.println("登陆主机为："+session.getHost());
             System.out.println("用户为："+session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));//admin
             System.out.println(session.getAttribute(DefaultSubjectContext.AUTHENTICATED_SESSION_KEY));//true
-        }
+        }*/
 
         //保存user对象到map中
 /*        while (sessionIterator.hasNext()){
@@ -141,6 +141,13 @@ public class SystemController {
                 map.put(session.getId().toString(),user);
             }
         }*/
+        //获取当前会话的认证对象
+        Subject subject = SecurityUtils.getSubject();
+        System.out.println(subject.getPrincipal());//admin，与获取的对象有关
+        //获取当前会话的session
+        Session session = subject.getSession();
+        System.out.println(session.getId());
         return map;
     }
+
 }

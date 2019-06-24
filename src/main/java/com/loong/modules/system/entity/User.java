@@ -1,6 +1,8 @@
 package com.loong.modules.system.entity;
 
-public class User {
+import java.io.Serializable;
+//必须要试下序列化接口才能使用cache工具持久化到磁盘中
+public class User implements Serializable {
     private String username;
     private String password;
 

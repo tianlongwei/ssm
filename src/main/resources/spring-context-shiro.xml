@@ -104,9 +104,20 @@
         <property name="unauthorizedUrl" value="/static/unauthorized.jsp"/>
         <property name="filterChainDefinitions">
             <value>
-                /static/login.jsp =anon
-                /showSession =anon
-                /listSession =anon
+                /static/login.jsp = anon
+                /showSession = anon
+                /listSession = anon
+                /static/shirofilter/lista.jsp = anon
+                /static/shirofilter/shiro_anon.jsp = anon
+                /static/shirofilter/shiro_user.jsp = user
+                /static/shirofilter/shiro_authcBasic.jsp = authcBasic
+                /static/shirofilter/shiro_authc.jsp = authc
+                /static/shirofilter/shiro_roles.jsp = roles[admin]
+                /static/shirofilter/shiro_perms.jsp = perms[user:create]
+                /static/shirofilter/shiro_port.jsp = port[80]
+                /static/shirofilter/shiro_rest.jsp = rest[user]
+                /static/shirofilter/shiro_ssl.jsp = ssl[443]
+                /static/shirofilter/shiro_logout.jsp = logout
                 /deleteSession =anon
                 /login = anon
                 /logout = logout
