@@ -8,6 +8,8 @@
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
     <description>shiro与spring容器整合的配置文件</description>
+
+    <!--配置参考》》https://www.oschina.net/question/2283807_242243-->
     <!--##################################1、配置realm服务端安全获取密码工具##############################################-->
     <!--
         1、配置服务端账户信息安全获取realm
@@ -51,7 +53,7 @@
         配置相应时的cookie设置
     -->
     <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <property name="name" value="jss"/>
+        <constructor-arg name="name" value="jsid"/>
     </bean>
 
     <!--#####################################4、配置shiro的默认的与web项目整合时的配置#####################################-->
@@ -63,10 +65,10 @@
         <property name="sessionDAO" ref="enterpriseCacheSessionDAO"/>
         <!--为其内部的sessionDao设置缓存管理对象-->
         <property name="cacheManager" ref="ehCacheManager"/>
-        <!--设置session的超时时间-->
+        <!--设置session的超时时间  30分钟-->
         <property name="globalSessionTimeout" value="1800000"/>
-        <!--设置检查session是否超时的间隔-->
-        <property name="sessionValidationInterval" value="60000"/>
+        <!--设置检查session是否超时的间隔  每5分钟 性能-->
+        <property name="sessionValidationInterval" value="300000"/>
         <!--删除无效的session-->
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionIdCookieEnabled" value="true"/>

@@ -1,11 +1,11 @@
 package com.loong.modules.commons.shiro.realm;
 
+import com.loong.modules.commons.shiro.bytesource.MyByteSource;
 import com.loong.modules.system.entity.User;
 import com.loong.modules.system.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.codec.Hex;
 import org.apache.shiro.realm.AuthenticatingRealm;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -44,11 +44,12 @@ public class MyRealmDemo extends AuthenticatingRealm {
         //hash后的密码
         Object hashedCredentials=user.getPassword().substring(16);
         //hash时使用的盐值
-        ByteSource credentialsSalt=ByteSource.Util.bytes(Hex.decode(user.getPassword().substring(0,16)));
+        //ByteSource credentialsSalt=ByteSource.Util.bytes(Hex.decode(user.getPassword().substring(0,16)));
+        MyByteSource s= new MyByteSource(Hex.decode(user.getPassword().substring(0,16)));
         //当前realm的名字
         String realmName=getName();
         //创建当前的服务端的账户信息
-        info=new SimpleAuthenticationInfo(pricipal,hashedCredentials,credentialsSalt,realmName);
+        info=new SimpleAuthenticationInfo(pricipal,hashedCredentials,s,realmName);
         return info;
     }
 }

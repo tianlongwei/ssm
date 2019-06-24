@@ -62,7 +62,8 @@ public class ShiroSessionController {
         for (int i = 0; i < sessionList.size(); i++) {
 //            sessionDAO.delete(sessionList.get(i));
             System.out.println("删除了id为："+sessionList.get(i).getId()+"的session");
-            sessionList.get(i).setTimeout(0);
+            //sessionList.get(i).setTimeout(0);
+            sessionList.get(i).stop();
         }
         return "redirect:listSession";
     }
