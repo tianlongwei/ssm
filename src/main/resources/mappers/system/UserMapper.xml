@@ -13,4 +13,7 @@
     <update id="updatePwd" parameterType="user">
         update sys_user set password =#{password} where username=#{username}
     </update>
+    <insert id="addUser" parameterType="user">
+        insert into sys_user(username,password) values (#{username},#{password})
+    </insert>
 </mapper>

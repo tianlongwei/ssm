@@ -5,7 +5,10 @@ import com.loong.modules.system.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +19,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class SystemController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    EnterpriseCacheSessionDAO dao;
 
     @RequestMapping("hello")
     public String hello(Model model){
@@ -54,6 +60,8 @@ public class SystemController {
             UsernamePasswordToken token=new UsernamePasswordToken(username,password);
             try {
                 subject.login(token);
+
+
             }catch (AuthenticationException e){
                 //登陆失败时
                 System.out.println(e.getMessage());
@@ -63,6 +71,7 @@ public class SystemController {
         User user = userService.getUserByLoginName(username);
         HttpSession session = request.getSession();
         session.setAttribute("user",user);
+        //System.out.println("servlet中session中的user值为："+session.getAttribute("user"));//null
         return "redirect:static/list.jsp";
     }
 
@@ -78,5 +87,60 @@ public class SystemController {
         user.setPassword(generatePwd);
         userService.updatePwd(user);
         return "redirect:static/list.jsp";
+    }
+
+    /**
+    *@Description: 显示shiro管理的所有session值
+    */
+    @RequestMapping("showSession")
+    @ResponseBody
+    public Map<String,Object> showSession(){
+        Map<String,Object> map=new HashMap<>();
+        //获取EnterpriseCacheSessionDAO中所有的session对象
+        Collection<Session> activeSessions = dao.getActiveSessions();
+        Iterator<Session> sessionIterator = activeSessions.iterator();
+/*        while (sessionIterator.hasNext()){
+            Session s= sessionIterator.next();
+            System.out.println("session的id为："+s.getId());
+            //获取属性中的值
+            Collection<Object> attributeKeys = s.getAttributeKeys();
+            Iterator<Object> iterator = attributeKeys.iterator();
+            while (iterator.hasNext()){
+                //获取到所有的key值
+                Object key=iterator.next();
+                System.out.println("当前session对象的key值为："+key);//shiroSavedRequest
+                //获取key值对应的值
+                Object attribute = s.getAttribute(key);
+                System.out.println("当前session对象的值为："+attribute);
+                if (attribute instanceof SavedRequest){
+                    System.out.println("*********************************************************************");
+                    System.out.println("SavedRequest为key值时");
+                    //如果值是SavedRequest类型
+                    SavedRequest request= (SavedRequest) attribute;
+                    System.out.println(request.getMethod());
+                    System.out.println(request.getQueryString());
+                    System.out.println(request.getRequestURI());
+                    System.out.println(request.getRequestUrl());
+                    System.out.println("*********************************************************************");
+                }
+            }
+        }*/
+        while (sessionIterator.hasNext()){
+            Session session = sessionIterator.next();
+            System.out.println("id:"+session.getId());
+            System.out.println("登陆主机为："+session.getHost());
+            System.out.println("用户为："+session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));//admin
+            System.out.println(session.getAttribute(DefaultSubjectContext.AUTHENTICATED_SESSION_KEY));//true
+        }
+
+        //保存user对象到map中
+/*        while (sessionIterator.hasNext()){
+            Session session = sessionIterator.next();
+            Object user = session.getAttribute("user");
+            if (user!=null){
+                map.put(session.getId().toString(),user);
+            }
+        }*/
+        return map;
     }
 }

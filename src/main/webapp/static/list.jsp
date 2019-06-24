@@ -15,5 +15,6 @@
 你好<%=user.getUsername()%>
 <a href="/logout">登出</a>
 <a href="/static/updatePwd.jsp">修改密码</a>
+<a href="/static/addUser.jsp">添加用户</a>
 </body>
 </html>

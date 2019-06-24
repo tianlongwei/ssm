@@ -14,6 +14,9 @@
      -->
     <bean id="myRealm" class="com.loong.modules.commons.shiro.realm.MyRealmDemo">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <!--开启cache管理-->
+        <property name="authenticationCachingEnabled" value="true"/>
+        <property name="authenticationCacheName" value="userCache"/>
     </bean>
     <!--配置密码匹配器-->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -61,9 +64,9 @@
         <!--为其内部的sessionDao设置缓存管理对象-->
         <property name="cacheManager" ref="ehCacheManager"/>
         <!--设置session的超时时间-->
-        <property name="globalSessionTimeout" value="10000"/>
+        <property name="globalSessionTimeout" value="1800000"/>
         <!--设置检查session是否超时的间隔-->
-        <property name="sessionValidationInterval" value="100000"/>
+        <property name="sessionValidationInterval" value="60000"/>
         <!--删除无效的session-->
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionIdCookieEnabled" value="true"/>
@@ -78,6 +81,7 @@
     -->
     <bean id="defaultWebSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
+        <!--指定保存的usercache使用的cache工具-->
         <property name="cacheManager" ref="ehCacheManager"/>
         <property name="sessionManager" ref="defaultWebSessionManager"/>
         <!--
@@ -101,6 +105,9 @@
         <property name="filterChainDefinitions">
             <value>
                 /static/login.jsp =anon
+                /showSession =anon
+                /listSession =anon
+                /deleteSession =anon
                 /login = anon
                 /logout = logout
                 /** = authc

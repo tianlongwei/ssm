@@ -43,4 +43,25 @@
 
     <mvc:default-servlet-handler/>
     <mvc:resources mapping="/static/**" location="/static/"/>
+
+    <!--##############################添加thymeleaf作为前端解析器################################-->
+<!--    <bean id="resourceBundleMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+         <property name="basename" value="message"/>
+    </bean>
+    <bean id="springResourceTemplateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <property name="cacheable" value="true"/>
+    </bean>
+
+    <bean id="springTemplateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="springResourceTemplateResolver"/>
+        <property name="enableSpringELCompiler" value="true"/>
+    </bean>
+
+    <bean id="resolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="order" value="1"/>
+        <property name="templateEngine" ref="springTemplateEngine"/>
+    </bean>-->
+
 </beans>

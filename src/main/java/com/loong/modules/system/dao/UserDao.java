@@ -11,4 +11,5 @@ public interface UserDao {
     List<User> getAll();
     User getUserByLoginName(String loginName);
     void updatePwd(User user);
+    void addUser(User user);
 }

@@ -29,6 +29,11 @@ public class UserService {
         userDao.updatePwd(user);
     }
 
+
+    public void addUser(User user){
+        userDao.addUser(user);
+    }
+
     //生成加密后的密码,使用shiro自己的加密方式
     public String generatePwd(String password){
         SecureRandomNumberGenerator generator=new SecureRandomNumberGenerator();
