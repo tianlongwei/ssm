@@ -53,7 +53,8 @@
         配置相应时的cookie设置
     -->
     <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg name="name" value="jsid"/>
+        <constructor-arg  value="sid"/>
+        <property name="name" value="jsid"/>
     </bean>
 
     <!--#####################################4、配置shiro的默认的与web项目整合时的配置#####################################-->

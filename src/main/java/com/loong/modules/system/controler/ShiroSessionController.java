@@ -1,8 +1,10 @@
 package com.loong.modules.system.controler;
 
 import com.loong.modules.system.entity.User;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,12 +34,12 @@ public class ShiroSessionController {
         while (iterator.hasNext()){
             Session session = iterator.next();
             //获取其中key值为"user"的值
-            User user = (User) session.getAttribute("user");
+/*            User user = (User) session.getAttribute("user");
             if (user!=null){
                 sessions.put(session.getId().toString(),user);
-            }
+            }*/
         }
-        model.addAttribute("sessions",sessions);
+        model.addAttribute("sessions",activeSessions);
         return "system/listSession";
     }
 
@@ -45,8 +47,6 @@ public class ShiroSessionController {
     @RequestMapping("deleteSession")
     public String deleteSession(String sessionId){
         //在activesession中删除
-        System.out.println("删除的session为："+sessionId);
-        //
         List<Session> sessionList = new ArrayList<>();
         Collection<Session> activeSessions = sessionDAO.getActiveSessions();
         Iterator<Session> iterator = activeSessions.iterator();
@@ -55,15 +55,26 @@ public class ShiroSessionController {
             System.out.println("保存用户信息的id为："+session.getId());
             if (session.getId().equals(sessionId)){
                 //sessionDAO.delete(session);
-                System.out.println("找到了该");
+                System.out.println("找到了当前需要删除的sessionID:"+session.getId());
                 sessionList.add(session);
             }
         }
+
+        //不能删除当前对象的session
+        Subject subject = SecurityUtils.getSubject();
+        Session currentSession = subject.getSession();
+
         for (int i = 0; i < sessionList.size(); i++) {
-//            sessionDAO.delete(sessionList.get(i));
+            Session session = sessionList.get(i);
+            //跳过当前会话session
+            if (currentSession.getId().equals(session.getId())){
+                System.out.println("当前会话session不会删除："+session.getId());
+                continue;
+            }
             System.out.println("删除了id为："+sessionList.get(i).getId()+"的session");
-            //sessionList.get(i).setTimeout(0);
-            sessionList.get(i).stop();
+            sessionDAO.delete(session);//直接删除session
+//            session.setTimeout(0);
+//            sessionList.get(i).stop();
         }
         return "redirect:listSession";
     }
