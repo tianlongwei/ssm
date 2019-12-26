@@ -2,3 +2,4 @@
 .idea
 ssm.iml
 target/
+/src/main/resources/db.properties
