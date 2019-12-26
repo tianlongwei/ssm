@@ -75,12 +75,18 @@
         </dependency>
         <!--####################4、数据库连接所需jar包#################################-->
         <!--**mysql数据库连接必备mysql-connector-java-->
+        <!--可以注销mysql依赖并将jar包放到tomcat中的lib中以解决如下问题：
+                警告 [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc
+                Web应用程序 [ROOT] 注册了JDBC驱动程序 [com.mysql.jdbc.Driver]，但在Web应用程序停止时无法注销它。
+                为防止内存泄漏，JDBC驱动程序已被强制取消注册。
+        -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.46</version>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -107,12 +113,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.9</version>
+            <version>[2.9.9,)</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.9</version>
+            <version>[2.9.10.1,)</version>
         </dependency>
         <!--####################8、shiro所需的jar#####################################-->
         <dependency>

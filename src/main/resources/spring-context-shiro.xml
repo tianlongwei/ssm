@@ -28,9 +28,10 @@
     </bean>
     <!--##################################2、配置session的获取方式#######################################################-->
     <!--
-        2、配置CachingRealm所需的缓存管理器,这里使用的是Ehcache
+        1、配置CachingRealm所需的缓存管理器,这里使用的是Ehcache
+        2、该对像需交给spring容器销毁
      -->
-    <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+    <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" init-method="init" destroy-method="destroy">
         <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
     </bean>
 
@@ -59,9 +60,10 @@
 
     <!--#####################################4、配置shiro的默认的与web项目整合时的配置#####################################-->
     <!--
-        默认的session管理对象
+        1、默认的session管理对象
+        2、该对象需要由spring容器销毁
     -->
-    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager" destroy-method="destroy">
         <!--设置session的获取方式-->
         <property name="sessionDAO" ref="enterpriseCacheSessionDAO"/>
         <!--为其内部的sessionDao设置缓存管理对象-->
