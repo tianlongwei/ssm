@@ -15,8 +15,9 @@
         1、配置数据源使用druid数据库连接池
         2、必须依赖mysql-connector-java
         3、与spring整合时，还需要spring-jdbc包
+        4、必须将连接池的创建于销毁交给spring容器处理，否则连接池线程无法在应用关闭后自动关闭，导致tomcat中还有线程为关闭而无法关闭
     -->
-    <bean id="datasource" class="com.alibaba.druid.pool.DruidDataSource">
+    <bean id="datasource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="url" value="${jdbc.url}"/>
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="username" value="${jdbc.username}"/>
