@@ -45,23 +45,37 @@
     <mvc:resources mapping="/static/**" location="/static/"/>
 
     <!--##############################添加thymeleaf作为前端解析器################################-->
-<!--    <bean id="resourceBundleMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-         <property name="basename" value="message"/>
-    </bean>
-    <bean id="springResourceTemplateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
-        <property name="prefix" value="/WEB-INF/templates/"/>
-        <property name="suffix" value=".html"/>
-        <property name="cacheable" value="true"/>
+    <!--    <bean id="resourceBundleMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+             <property name="basename" value="message"/>
+        </bean>
+        <bean id="springResourceTemplateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+            <property name="prefix" value="/WEB-INF/templates/"/>
+            <property name="suffix" value=".html"/>
+            <property name="cacheable" value="true"/>
+        </bean>
+
+        <bean id="springTemplateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+            <property name="templateResolver" ref="springResourceTemplateResolver"/>
+            <property name="enableSpringELCompiler" value="true"/>
+        </bean>
+
+        <bean id="resolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+            <property name="order" value="1"/>
+            <property name="templateEngine" ref="springTemplateEngine"/>
+        </bean>-->
+
+
+
+    <!--##########################################7、开启shiro在项目中的注解功能(需要配置在springmvc文件中才能生效)#########################################-->
+ <!--   <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"
+        可以注释在 ShiroAnnotationProcessorConfiguration 中已经进行了依赖注入/>-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
     </bean>
 
-    <bean id="springTemplateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
-        <property name="templateResolver" ref="springResourceTemplateResolver"/>
-        <property name="enableSpringELCompiler" value="true"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="defaultWebSecurityManager"/>
     </bean>
-
-    <bean id="resolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
-        <property name="order" value="1"/>
-        <property name="templateEngine" ref="springTemplateEngine"/>
-    </bean>-->
-
 </beans>

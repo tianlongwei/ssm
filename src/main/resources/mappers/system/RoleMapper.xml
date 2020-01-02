@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.loong.modules.system.dao.RoleDao">
+    <select id="getAll" resultType="com.loong.modules.system.entity.Role">
+        select *
+        from sys_role
+        where del_flag=0
+    </select>
+
+    <select id="getRolesByUserId"
+            parameterType="com.loong.modules.system.entity.User"
+            resultType="com.loong.modules.system.entity.Role">
+        SELECT
+            r.*
+        FROM
+            sys_user_role ur
+            LEFT JOIN sys_role r ON ur.role_id=r.id
+        WHERE
+            r.del_flag =0
+            AND ur.user_id=#{id}
+    </select>
+
+    <select id="getByNameOrEnname" parameterType="com.loong.modules.system.entity.Role"
+            resultType="com.loong.modules.system.entity.Role">
+        select *
+        from sys_role r
+        where r.name=#{name}
+        or r.enname=#{enname}
+    </select>
+
+    <insert id="addRole" parameterType="com.loong.modules.system.entity.Role">
+        insert into sys_role(id,sys_role.name,enname,description,del_flag)
+        values (#{id},#{name},#{enname},#{description},#{del_flag})
+    </insert>
+
+    <delete id="deleteById" parameterType="com.loong.modules.system.entity.Role">
+        delete from sys_role
+        where id=#{id}
+    </delete>
+
+    <delete id="deleteAllRolesByUserId" parameterType="com.loong.modules.system.entity.User">
+        delete from sys_user_role
+        where user_id=#{id}
+    </delete>
+</mapper>

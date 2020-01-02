@@ -1,20 +1,12 @@
-<%@ page import="com.loong.modules.system.entity.User" %><%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2019/6/7
-  Time: 20:29
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.loong.modules.system.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>list</title>
 </head>
 <body>
-<% User user= (User) session.getAttribute("user");%>
-你好<%=user.getUsername()%>
-<a href="/logout">登出</a>
-<a href="/static/updatePwd.jsp">修改密码</a>
-<a href="/static/addUser.jsp">添加用户</a>
+<jsp:include page="/WEB-INF/views/include/head.jsp"></jsp:include>
+<p><a href="/user/list">查看用户</a></p>
+<p><a href="/role/list">查看角色</a></p>
 </body>
 </html>

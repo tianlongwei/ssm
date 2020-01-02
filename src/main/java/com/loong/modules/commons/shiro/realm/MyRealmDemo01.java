@@ -64,4 +64,6 @@ public class MyRealmDemo01 extends AuthenticatingRealm {
         info=new SimpleAuthenticationInfo(pricipal,hashedCredentials,credentialsSalt,realmName);
         return info;
     }
+
+
 }

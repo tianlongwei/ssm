@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <td>
-                <input type="submit" name="提交">
+                <input type="submit" value="登录">
             </td>
         </tr>
     </table>

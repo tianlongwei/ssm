@@ -14,7 +14,7 @@
     <!--
         1、配置服务端账户信息安全获取realm
      -->
-    <bean id="myRealm" class="com.loong.modules.commons.shiro.realm.MyRealmDemo">
+    <bean id="myRealm" class="com.loong.modules.commons.shiro.realm.MyRealmDemo02">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
         <!--开启cache管理-->
         <property name="authenticationCachingEnabled" value="true"/>
@@ -30,7 +30,7 @@
     <!--
         2、配置CachingRealm所需的缓存管理器,这里使用的是Ehcache
      -->
-    <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+    <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" init-method="init" destroy-method="destroy">
         <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
     </bean>
 
@@ -61,7 +61,7 @@
     <!--
         默认的session管理对象
     -->
-    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager" destroy-method="destroy">
         <!--设置session的获取方式-->
         <property name="sessionDAO" ref="enterpriseCacheSessionDAO"/>
         <!--为其内部的sessionDao设置缓存管理对象-->
@@ -129,6 +129,6 @@
         </property>
     </bean>
     <!--##########################################7、开启shiro在项目中的注解功能#########################################-->
-    <!--开启shiro的注解，aop模式-->
+    <!--开启shiro的注解，aop模式.需要将配置放置到springMvc的配置文件中才能生效-->
 
 </beans>

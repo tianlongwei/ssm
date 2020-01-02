@@ -10,6 +10,11 @@ import java.util.List;
 public interface UserDao {
     List<User> getAll();
     User getUserByLoginName(String loginName);
+    User getUserById(User user);
     void updatePwd(User user);
     void addUser(User user);
+    void deleteById(User user);
+    //插入用户角色关系表
+    void insertUserRole(User user);
+    void update(User user);
 }

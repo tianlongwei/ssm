@@ -52,4 +52,7 @@ public class MyRealmDemo extends AuthenticatingRealm {
         info=new SimpleAuthenticationInfo(pricipal,hashedCredentials,s,realmName);
         return info;
     }
+
+
+
 }
